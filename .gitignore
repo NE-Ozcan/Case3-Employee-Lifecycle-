@@ -1,0 +1,8 @@
+# Lokale demodata en logs niet in Git
+medewerkers.db
+lokaal-idp.json
+audit.log
+__pycache__/
+# Nooit credentials committen
+.env
+*.pem

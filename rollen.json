@@ -1,0 +1,38 @@
+{
+  "_uitleg": "Rollenmatrix als code. Het script regelt rol -> groep. De rechten (platform en portal) hang je aan de GROEP: in de identity provider (permission sets), in het cluster en in de portal. Hier staan ze als documentatie; 'python lifecycle.py rollen' toont de matrix.",
+  "basisgroep": "ino-alle-medewerkers",
+  "rollen": {
+    "developer": ["ino-developers"],
+    "it-beheerder": ["ino-platform-admins"],
+    "hr-medewerker": ["ino-hr"],
+    "manager": ["ino-managers"],
+    "stagiair": []
+  },
+  "groepen": {
+    "ino-alle-medewerkers": {
+      "omschrijving": "Iedereen in dienst",
+      "platform": "geen",
+      "portal": "medewerker"
+    },
+    "ino-developers": {
+      "omschrijving": "Ontwikkelaars",
+      "platform": "ReadOnly (permission set ReadOnlyAccess), namespace dev",
+      "portal": "medewerker"
+    },
+    "ino-platform-admins": {
+      "omschrijving": "Beheer van cloud en cluster",
+      "platform": "PlatformAdmin (permission set, MFA, sessie 1 uur)",
+      "portal": "beheerder"
+    },
+    "ino-hr": {
+      "omschrijving": "HR / P&O",
+      "platform": "geen",
+      "portal": "HR (medewerkers inzien en aanmelden)"
+    },
+    "ino-managers": {
+      "omschrijving": "Leidinggevenden",
+      "platform": "geen",
+      "portal": "goedkeurder (aanvragen eigen team)"
+    }
+  }
+}
