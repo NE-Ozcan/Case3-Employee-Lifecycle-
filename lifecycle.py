@@ -63,7 +63,7 @@ STATUSSEN = ("nieuw", "actief", "vertrekt", "uit_dienst")
 
 DEMO_MEDEWERKERS = [
     # id,  voornaam, achternaam,      afdeling,      rol,             status
-    (1001, "Sane",  "de Vries",      "IT",          "it-beheerder",  "actief"),
+    (1001, "Hank",  "de Vries",      "IT",          "it-beheerder",  "actief"),
     (1002, "Mohamed", "El Amrani",    "Development", "developer",     "actief"),
     (1003, "Lotte",  "Janssen",       "HR",          "hr-medewerker", "actief"),
     (1004, "Daan",   "Bakker",        "Development", "developer",     "nieuw"),
