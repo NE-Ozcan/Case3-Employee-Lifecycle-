@@ -1,0 +1,54 @@
+name: Identity Lifecycle CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-lifecycle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Syntax check lifecycle.py
+        run: python3 -m py_compile lifecycle.py
+
+      - name: Initialize database and groups
+        run: |
+          python3 lifecycle.py init-db
+          python3 lifecycle.py setup
+
+      - name: Test dry-run (joiner, mover, leaver)
+        run: |
+          python3 lifecycle.py joiner 1004 --dry-run
+          python3 lifecycle.py mover 1004 --rol manager --dry-run
+          python3 lifecycle.py leaver 1004 --dry-run
+
+      - name: Test joiner and idempotency
+        run: |
+          python3 lifecycle.py joiner 1004
+          python3 lifecycle.py joiner 1004
+          python3 -c "
+          import json
+          with open('lokaal-idp.json') as f:
+              data = json.load(f)
+          users = [u for u in data.get('users', {}).values() if u.get('UserName') == 'daan.bakker']
+          assert len(users) == 1, f'Expected 1 user, got {len(users)}'
+          print('Idempotency verified: 1 account for daan.bakker')
+          "
+
+      - name: Test mover, leaver and audit
+        run: |
+          python3 lifecycle.py mover 1004 --rol manager
+          python3 lifecycle.py leaver 1004
+          python3 lifecycle.py toon 1004
+          python3 lifecycle.py audit
